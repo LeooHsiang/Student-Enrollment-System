@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Statuses</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Status Name</th>
+  </tr>
+  </thead>
+  <tbody>
+      <% @statuses.each do |status| %>
+      <tr>
+        <td><%= status.id %></td>
+        <td><%= status.status_name %></td>
+      </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New status", new_status_path %>

@@ -1,0 +1,9 @@
+<h1>New enrollment</h1>
+
+<%= render "form", enrollment: @enrollment, courses:@courses, instructor:@instructor, student:@student, students:@students %>
+
+<br>
+
+<div>
+  <%= link_to "Back to courses", courses_path %>
+</div>

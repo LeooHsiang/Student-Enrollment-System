@@ -1,0 +1,27 @@
+<h1 class="text-center">Welcome to Wolf Register</h1>
+
+<% if !current_user %>
+  <h2 class="text-center">Please Signup/Login to Continue</h2>
+<% end %>
+
+<% if current_user %>
+  <p> Hello <%= current_user.role %> !!! </p>
+  <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete, class:"nav-link" %>
+
+  <% if current_user.student? && @registration_required %>
+    <p>
+      Kindly <%= link_to "Register", new_student_path %> below to Proceed
+    </p>
+  <% end %>
+  <% if current_user.admin? && @registration_required %>
+<!--    <p>-->
+<!--      Kindly <%#= link_to "Register", new_admin_path %> below to Proceed-->
+<!--    </p>-->
+  <% end %>
+  <% if current_user.instructor? && @registration_required %>
+    <p>
+      Kindly <%= link_to "Register", new_instructor_path %> below to Proceed
+    </p>
+  <% end %>
+ <% end %>
+

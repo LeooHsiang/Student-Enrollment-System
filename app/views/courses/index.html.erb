@@ -1,0 +1,98 @@
+<p style="color: green"><%= notice %></p>
+<h1>Courses</h1>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Instructor</th>
+    <th scope="col">Status</th>
+    <th scope="col">Weekday One</th>
+    <th scope="col">Weekday Two</th>
+    <th scope="col">Start Time</th>
+    <th scope="col">End Time</th>
+    <th scope="col">Code</th>
+    <th scope="col">Available Capacity</th>
+    <th scope="col">Available Waitlist Capacity</th>
+    <th scope="col">Room</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @courses.each do |course| %>
+    <% if current_user.student? %>
+      <tr>
+        <p>
+        <td><%= course.id %></td>
+        <td><%= course.name %></td>
+        <td><%= course.description %></td>
+        <td><%= Instructor.find_by(id: course.instructors_id).name %></td>
+        <td><%= Status.find_by(id: course.statuses_id).status_name %></td>
+        <td><%= course.weekday_one %></td>
+        <td><%= course.weekday_two %>
+        <td><%= course.start_time %></td>
+        <td><%= course.end_time %></td>
+        <td><%= course.code %></td>
+        <td><%= course.available_capacity %></td>
+        <td><%= course.avaialable_waitlist_capacity %></td>
+        <td><%= course.room %></td>
+        <td><%= link_to 'Show', course, method: :show %></td>
+        <td><%= link_to 'Enroll', new_enrollment_path(:course_id => course.id) %></td>
+        </p>
+      </tr>
+    <% end %>
+    <% if current_user.instructor? %>
+      <%if course.instructors_id==@instructor.id %>
+        <tr>
+          <p>
+          <td><%= course.id %></td>
+          <td><%= course.name %></td>
+          <td><%= course.description %></td>
+          <td><%= Instructor.find_by(id: course.instructors_id).name %></td>
+          <td><%= Status.find_by(id: course.statuses_id).status_name %></td>
+          <td><%= course.weekday_one %></td>
+          <td><%= course.weekday_two %>
+          <td><%= course.start_time %></td>
+          <td><%= course.end_time %></td>
+          <td><%= course.code %></td>
+          <td><%= course.available_capacity %></td>
+          <td><%= course.avaialable_waitlist_capacity %></td>
+          <td><%= course.room %></td>
+          <td><%= link_to 'Show/Edit/Delete', course, method: :show %></td>
+          <td><%= link_to 'Enrolled Students', students_path(:course_id => course.id, :enrollment_status => "Enrolled"), method: :get %></td>
+          <td><%= link_to 'Waitlist Students', students_path(:course_id => course.id, :enrollment_status => "Waitlist"), method: :get %></td>
+          <td><%= link_to 'Enroll Students', new_enrollment_path(:course_id => course.id) %></td>
+          </p>
+        </tr>
+      <% end %>
+    <% end %>
+    <% if current_user.admin? %>
+        <tr>
+          <p>
+          <td><%= course.id %></td>
+          <td><%= course.name %></td>
+          <td><%= course.description %></td>
+          <td><%= Instructor.find_by(id: course.instructors_id).name %></td>
+          <td><%= Status.find_by(id: course.statuses_id).status_name %></td>
+          <td><%= course.weekday_one %></td>
+          <td><%= course.weekday_two %>
+          <td><%= course.start_time %></td>
+          <td><%= course.end_time %></td>
+          <td><%= course.code %></td>
+          <td><%= course.available_capacity %></td>
+          <td><%= course.avaialable_waitlist_capacity %></td>
+          <td><%= course.room %></td>
+          <td><%= link_to 'Show/Edit/Delete', course, method: :show %></td>
+          <td><%= link_to 'Enrolled Students', students_path(:course_id => course.id, :enrollment_status => "Enrolled"), method: :get %></td>
+          <td><%= link_to 'Waitlist Students', students_path(:course_id => course.id, :enrollment_status => "Waitlist"), method: :get %></td>
+          <td><%= link_to 'Enroll Students', new_enrollment_path(:course_id => course.id) %></td>
+          </p>
+        </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<% if current_user.instructor? || current_user.admin? %>
+  <%= link_to "New course", new_course_path %>
+<% end %>

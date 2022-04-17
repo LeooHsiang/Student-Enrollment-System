@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <%= link_to 'Wolf Register Home', root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 14px;">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <% if !current_user %>
+          <li class="nav-item" style="margin-top: -10px;">
+            <%= link_to 'Sign Up', new_user_registration_path, class:"nav-link" %>
+          </li>
+          <li class="nav-item" style="margin-top: -10px;">
+            <%= link_to 'Log In', new_user_session_path, class:"nav-link" %>
+          </li>
+        <% end %>
+        <% if current_user %>
+          <% if current_user.admin? %>
+            <li class="navbar-brand">
+              <p>Role : <u><%= @view_role %></u></p>
+            </li>
+          <% end %>
+          <% if current_user.instructor? %>
+            <li class="navbar-brand">
+              <p>Role : <b><i><%= @view_role %></i></b></p>
+            </li>
+          <% end %>
+          <% if current_user.student? %>
+            <li class="navbar-brand">
+              <p>Role : <b><%= @view_role %></b></p>
+            </li>
+          <% end %>
+          <%#= link_to current_user.role, root_path, class: "navbar-brand" %>
+          <% if (current_user.student? || current_user.admin? ) && !@registration_required %>
+            <li class="nav-item">
+              <%= link_to "Students Page", students_path, class:"nav-link" %>
+            </li>
+          <% end %>
+          <% if (current_user.instructor? || current_user.admin? ) && !@registration_required %>
+            <li class="nav-item">
+              <%= link_to "Instructors Page", instructors_path, class:"nav-link" %>
+            </li>
+          <% end %>
+          <% if !@registration_required %>
+            <li class="nav-item">
+              <%= link_to "Courses", courses_path, class:"nav-link" %>
+            </li>
+          <% end %>
+          <% if current_user.admin? %>
+            <li class="nav-item">
+              <%= link_to "Edit Profile", edit_admin_path(:id => Admin.find_by(users_id: current_user.id).id), class:"nav-link" %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

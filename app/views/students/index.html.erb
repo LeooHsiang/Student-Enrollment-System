@@ -1,0 +1,72 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Students</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Date of Birth</th>
+    <th scope="col">Phone Number</th>
+    <th scope="col">Major</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% if current_user.student? %>
+      <% @current_student.each do |student| %>
+        <tr>
+          <td><%= student.id %></td>
+          <td><%= student.name %></td>
+          <td><%= student.date_of_birth %></td>
+          <td><%= student.phone_number %></td>
+          <td><%= student.major %></td>
+          <td><%= link_to 'Show', student, method: :show %></td>
+          <td><%= link_to 'View Enrollemnts', enrollments_path(:student_id => student.id) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+
+    <% if current_user.instructor? %>
+    <% @current_student.each do |student| %>
+      <tr>
+        <td><%= student.id %></td>
+        <td><%= student.name %></td>
+        <td><%= student.date_of_birth %></td>
+        <td><%= student.phone_number %></td>
+        <td><%= student.major %></td>
+        <td><%= link_to 'Show', student, method: :show %></td>
+        <% if @current_course.nil? %>
+          <td><%= link_to 'View Enrollemnts', enrollments_path(:student_id => student.id) %></td>
+        <% else %>
+          <td><%= link_to 'View Enrollemnts', enrollments_path(:student_id => student.id, :course_id => @current_course.id) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+
+    <% if current_user.admin?%>
+      <% @current_student.each do |student| %>
+        <tr>
+          <td><%= student.id %></td>
+          <td><%= student.name %></td>
+          <td><%= student.date_of_birth %></td>
+          <td><%= student.phone_number %></td>
+          <td><%= student.major %></td>
+          <td><%= link_to 'Show/Edit/Delete', student, method: :show %></td>
+          <% if @current_course.nil? %>
+            <td><%= link_to 'View Enrollemnts', enrollments_path(:student_id => student.id) %></td>
+          <% else %>
+            <td><%= link_to 'View Enrollemnts', enrollments_path(:student_id => student.id, :course_id => @current_course.id) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+
+
+  </tbody>
+</table>
+
+<% if current_user.admin? %>
+  <%= link_to "New student", new_student_path %>
+<% end %>

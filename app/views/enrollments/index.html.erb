@@ -1,0 +1,67 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Enrollments</h1>
+
+<!--<div id="enrollments">-->
+  <%# @enrollments.each do |enrollment| %>
+    <%#= render enrollment %>
+<!--    <p>-->
+      <%#= link_to "Show this enrollment", enrollment %>
+<!--    </p>-->
+  <%# end %>
+<!--</div>-->
+
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Status</th>
+    <th scope="col">Waitlist Position</th>
+    <th scope="col">Course Name</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+    <% if current_user.student? %>
+        <% @enrollments.each do |enrollment| %>
+          <% if @student.id == enrollment.students_id %>
+            <tr>
+              <td><%= enrollment.id %></td>
+              <td><%= enrollment.status %></td>
+              <td><%= enrollment.waitlist_position %></td>
+              <td><%= Course.find_by(id: enrollment.courses_id).name %></td>
+              <td><%= button_to 'Delete', enrollment, method: :delete %></td>
+            </tr>
+          <% end %>
+        <% end %>
+    <% end %>
+    <% if current_user.instructor? %>
+    <% @enrollments.each do |enrollment| %>
+      <% if @current_course.id == enrollment.courses_id %>
+        <% if @student.id == enrollment.students_id %>
+          <tr>
+            <td><%= enrollment.id %></td>
+            <td><%= enrollment.status %></td>
+            <td><%= enrollment.waitlist_position %></td>
+            <td><%= Course.find_by(id: enrollment.courses_id).name %></td>
+            <td><%= button_to 'Delete', enrollment, method: :delete %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if current_user.admin? %>
+    <% @current_enrollment.each do |enrollment| %>
+          <tr>
+            <td><%= enrollment.id %></td>
+            <td><%= enrollment.status %></td>
+            <td><%= enrollment.waitlist_position %></td>
+            <td><%= Course.find_by(id: enrollment.courses_id).name %></td>
+            <td><%= button_to 'Delete', enrollment, method: :delete %></td>
+          </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<%#= link_to "New enrollment", new_enrollment_path %>

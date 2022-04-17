@@ -1,0 +1,41 @@
+<%= form_with(model: enrollment) do |form| %>
+  <% if enrollment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(enrollment.errors.count, "error") %> prohibited this enrollment from being saved:</h2>
+
+      <ul>
+        <% enrollment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.text_field :status, type: :hidden %>
+  </div>
+
+  <div>
+    <%= form.number_field :waitlist_position, type: :hidden %>
+  </div>
+
+
+
+  <% if current_user.student? %>
+    <p>Select Course</p>
+    <%= select_tag(:course_id, options_for_select(@courses.collect{ |u| [u.name, u.id] }, params[:course_id] ), class:"form-select") %>
+  <%end %>
+
+  <% if current_user.instructor? || current_user.admin? %>
+    <p>Select Course</p>
+    <%= select_tag(:course_id, options_for_select(@courses.collect{ |u| [u.name, u.id] }, params[:course_id] ), class:"form-select") %>
+    <br>
+    <p>Select Student</p>
+    <%= select_tag(:student_id, options_for_select(@students.collect{ |u| [u.name, u.id] }, params[:student_id] ), class:"form-select") %>
+  <%end %>
+
+  <br>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

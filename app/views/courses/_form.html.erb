@@ -1,0 +1,73 @@
+<%= form_with(model: course) do |form| %>
+  <% if course.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+        <% course.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :weekday_one %>
+    <%= form.select :weekday_one, [ "MON", "TUE", "WED", "THU", "FRI"] %>
+  </div>
+
+  <div>
+    <%= form.label :weekday_two %>
+    <%= form.select :weekday_two, [ "MON", "TUE", "WED", "THU", "FRI", "NIL"] %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.text_field :start_time, :placeholder => "Enter in HH:MM format" %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.text_field :end_time, :placeholder => "Enter in HH:MM format" %>
+  </div>
+
+  <div>
+    <%= form.label :code, style: "display: block" %>
+    <%= form.text_field :code %>
+  </div>
+
+  <div>
+    <%= form.label :capacity, style: "display: block" %>
+    <%= form.number_field :capacity %>
+  </div>
+
+  <div>
+    <%= form.label :waitlist_capacity, style: "display: block" %>
+    <%= form.number_field :waitlist_capacity %>
+  </div>
+
+  <div>
+    <%= form.label :room, style: "display: block" %>
+    <%= form.text_field :room %>
+  </div>
+
+  <% if current_user.admin? %>
+    Select Instructor
+    <%= select_tag(:instructors_id, options_for_select(@instructors.collect{ |u| [u.name, u.id] }, params[:instructors_id] ), class:"form-select") %>
+  <%end %>
+
+  <br>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

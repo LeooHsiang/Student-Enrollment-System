@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Instructors</h1>
+
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Department</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @current_instructor.each do |instructor| %>
+  <tr>
+    <p>
+    <td><%= instructor.id %></td>
+    <td><%= instructor.name %></td>
+    <td><%= instructor.department %></td>
+    <% if current_user.instructor? %>
+      <td><%= link_to 'Show/Edit', instructor, method: :show %></td>
+    <% end %>
+    <% if current_user.admin? %>
+      <td><%= link_to 'Show/Edit/Delete', instructor, method: :show %></td>
+    <% end %>
+    </p>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% if current_user.admin? %>
+  <%= link_to "New instructor", new_instructor_path %>
+<% end %>
