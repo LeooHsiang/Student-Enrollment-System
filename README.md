@@ -40,24 +40,8 @@ rails db:seed
 
 Run 'rails s' to start the app, then you can access the app under: http://localhost:3000
 
-## Deployment Instructions
 
-  - Resere a VCL VM 
-  - Set it up: https://docs.google.com/document/d/10i91a8B6D7s5py7VwgE2UDxRIcJSdQKkt1h5g2m3YsA/edit
-  - git clone git@github.ncsu.edu:dvnguye3/csc517-program2-eagle.git
-  - From the project root directory run the following commands
-    ```
-    bundle
-    rails db:migrate
-    rails db:seed
-    rails s -p 8080 -b 152.7.98.99 &
-    ```
-
-## Team Members
-
-  - Rachel Hyo Son
-  - Duy Nguyen
-  - Leo Hsiang
+### Workflow
 
 Main page :
 - Sign Up as instructor/student
